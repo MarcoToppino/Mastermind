@@ -1,3 +1,8 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+from random import randint
+
+def ask_player_name():
+    player_name = input("Please input your name:  ")
+    print(f"Good morning {player_name}: what about a nice game at Mastermind?\n")
+    print(f"I will play with you...my name is Joshua.\n")
+
+ask_player_name()
