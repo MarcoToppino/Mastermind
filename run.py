@@ -4,7 +4,7 @@ import time,sys
 """
 Declare Global Variables
 """
-turn = 0
+turn = "ciao"
 
 
 
@@ -81,5 +81,4 @@ secret_player = create_random_code()
 player_guess = input_player_guess()
 print(secret_cpu)
 print(secret_player)
-print(turn)
 print(player_guess)
