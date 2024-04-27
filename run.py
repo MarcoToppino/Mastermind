@@ -41,8 +41,8 @@ def ask_player_name():
     typingPrint(f"I will play with you...my name is Joshua.\n\n")
     typingPrint(f"The game is very simple: we will both try to crack a secret code\n\n")
     typingPrint(f"The code is made of 4 digits, between 1 and 9\n")
-    typingPrint(f"If we guess a digit in the right place of the code, it will show up in the feedback\n")
-    typingPrint(f"If it is there, but in the wrong place, an X will appear, instead\n\n")
+    typingPrint(f"If we guess a digit in the right place of the code,\nit will show up in the feedback\n")
+    typingPrint(f"If it is there, but in the wrong place, an X will appear\n\n")
     typingPrint(f"Let's see who will crack the code first....and launch the missiles!\n\n")
     return player_name
 
@@ -50,9 +50,10 @@ def prepare_board(player_name):
     """
     Builds the two empty Boards, CPU on the left, player on the right
     """
-    typingPrint(f"  Joshua                 {player_name}\n")
+    typingPrint(f"       Joshua               {player_name}\n")
+    typingPrint(f"   Code   Feedback      Code    Feedback\n")
     for row in range(1,10):
-        print(f"|. . . .| |. . . .| - |. . . .| |. . . .|\n")
+        print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|\n")
   
 def create_random_code():
     """
