@@ -4,7 +4,7 @@ import time,sys
 """
 Declare Global Variables
 """
-turn = "ciao"
+turn = 0
 
 
 
@@ -64,21 +64,78 @@ def create_random_code():
             
     return secret
 
+
+def validate_guess(guess):
+    """
+    Validate the imput guess from the player
+    It must ba 4 digits (integers)
+    Inside the try, converts the string value into integer.
+    Raises ValueError if string cannot be converted into int,
+    or if there aren't exactly 4 characters.
+    """
+    try:
+        int(guess)
+        if len(guess) != 4:
+            raise ValueError(
+                f"Exactly 4 digits required, you provided {len(guess)}"
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.\n")
+        return False
+
+    return True
+
+
 def input_player_guess ():
     """
     Ask the player to input a guess for the code
+    Continue to ask if the input is not valid
     """
-    player_guess = typingInput("Guess the ccode: ")
+    while True:
+        player_guess = typingInput("Guess the code: ")
+        if validate_guess(player_guess):
+            typingPrint(f"Checking your code....\n")
+            time.sleep(1)
+            typingPrint(f"I'm also trying my code.... \n")
+            time.sleep(1)
+            typingPrint(f"Here is our feedback.... \n")
+            break
     return player_guess
 
 
+def evaluate_guess(player, guess):
+    """
+    Evaluate the guess against the corresponding code (player or CPU)
+    """
+    print(player)
+    print(guess)
 
 
+"""
+Sequence of activities to prepare the game
+"""
 player_name = ask_player_name()
-turn = prepare_board(player_name)
+prepare_board(player_name)
 secret_cpu = create_random_code()
 secret_player = create_random_code()
 player_guess = input_player_guess()
-print(secret_cpu)
-print(secret_player)
-print(player_guess)
+validate_guess(player_guess)
+
+
+"""
+Sequence of activities to execute the game
+evaluate the guess against the secret and create the feedback
+store the values in the history list
+if the code is same as secret, evaluate victory.
+create a guess for the CPU
+evaluate the guess against the secret and create the feedback
+store the values in the history list
+if the code is same as secret, evaluate victory.
+print the board with the history + the remaining empty turns
+increase turns
+if the turnes are fininshed...evaluate victory
+"""
+evaluate_guess("Player", player_guess)
+
+
+
