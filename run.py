@@ -137,8 +137,10 @@ def cpu_almost_random_guess():
         cpu_guess = create_random_code()
     elif feedback_cpu == [".",".",".","."]:
         #no digits found is pure random 
+        #this probably doesn't work
         cpu_guess = create_random_code()
     else:
+        
         for num in range(4):
             if feedback_cpu[num] == ".":
                 #digit not found is random
@@ -200,7 +202,7 @@ def evaluate_victory(guess, secret, player):
     if count == 4:
         print("Code found!")
     elif count == 3 and player == "CPU":
-        print("I'm almost there....better you call the President....Defcon 1")
+        print("I'm almost there....better you call the President....I'm moving to Defcon 1")
     elif count == 3 and player == "Player":
         print("You're almost there....we're not playing 'Global Thermonuclear War', or are we?...")
     elif player == "CPU" and count <4:
@@ -232,6 +234,7 @@ def play_game():
     increase turns and ask for a new input
     if the turns are fininshed...evaluate victory
     """
+    global feedback_cpu
     player_guess = input_player_guess()
     validate_guess(player_guess)
     feedback_player = evaluate_guess("Player", player_guess, secret_player)
