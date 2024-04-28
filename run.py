@@ -1,13 +1,15 @@
 from random import randint
 import time,sys
+import os
 
 """
 Declare Global Variables
 """
-turn = 0
+turn = 1
 history = []
 feedback_cpu=[]
 feedback_player = []
+player_name = ""
 
 def typingPrint(text):
     """
@@ -34,16 +36,17 @@ def ask_player_name():
     """
     Ask for the player name and print a welcome message
     """
-    player_name = typingInput("Please login with your name:  ")
-    typingPrint(f"\nGood morning {player_name}:\n\n")
-    typingPrint(f"Shall we play a game?\n")
-    typingPrint(f"What about a nice round at Mastermind?\n\n")
-    typingPrint(f"I will play with you...my name is Joshua.\n\n")
-    typingPrint(f"The game is very simple: we will both try to crack a secret code\n\n")
-    typingPrint(f"The code is made of 4 digits, between 1 and 9\n")
-    typingPrint(f"If we guess a digit in the right place of the code,\nit will show up in the feedback\n")
-    typingPrint(f"If it is there, but in the wrong place, an X will appear\n\n")
-    typingPrint(f"Let's see who will crack the code first....and launch the missiles!\n\n")
+    player_name = typingInput(" Please login with your name:  ")
+    typingPrint(f"\n Good morning {player_name}:\n\n")
+    typingPrint(f" Shall we play a game?\n")
+    typingPrint(f" What about a nice round at Mastermind?\n\n")
+    typingPrint(f" I will play with you...my name is Joshua.\n\n")
+    typingPrint(f" The game is very simple: we will both try to crack a secret code\n\n")
+    typingPrint(f" The code is made of 4 digits, between 1 and 9\n")
+    typingPrint(f" If we guess a digit in the right place of the code,\n it will show up in the feedback\n")
+    typingPrint(f" If it is there, but in the wrong place, an X will appear\n\n")
+    typingPrint(f" Let's see who will crack the code first....and launch the missiles!\n\n")
+    time.sleep(2)
     return player_name
 
 def prepare_board(player_name):
@@ -53,11 +56,11 @@ def prepare_board(player_name):
     typingPrint(f"       Joshua               {player_name}\n")
     typingPrint(f"   Code   Feedback      Code    Feedback\n")
     for row in range(1,10):
-        print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|\n")
+        print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|")
   
 def create_random_code():
     """
-    Creates a 4 digit code with integers 0-9
+    Creates a 4 digit code with integers 1-9
     """
     secret = []
     for num in range(4):
@@ -93,13 +96,14 @@ def input_player_guess ():
     Continue to ask if the input is not valid
     """
     while True:
-        player_guess = typingInput("Guess the code: ")
+        player_guess = typingInput(f" {player_name}, guess the code: ")
         if validate_guess(player_guess):
-            typingPrint(f"Checking your code....\n")
+            os.system("clear")
+            typingPrint(f" Checking your code {player_name}....\n\n")
             time.sleep(1)
-            typingPrint(f"I'm also trying my code.... \n")
+            typingPrint(f" I'm also trying my code....\n\n")
             time.sleep(1)
-            typingPrint(f"Here is our feedback.... \n")
+            typingPrint(f" Here is our feedback....\n\n")
             break
             
     return player_guess
@@ -129,8 +133,8 @@ def cpu_almost_random_guess():
     random integer for the unkonown digits,
     random, but avoiding the already known, for the known
     """
-    if turn == 0:
-        #first round (turn = 0) is pure random
+    if turn == 1:
+        #first round (turn = 1) is pure random
         cpu_guess = create_random_code()
     elif feedback_cpu == [".",".",".","."]:
         #no digits found is pure random 
@@ -156,21 +160,30 @@ def make_string(list):
 def create_history(player_guess, feedback_player, cpu_guess, feedback_cpu):
     """
     Creates a string for a full turn of the board
-    add it to the list that represents the board
+    add it to the history list that represents the board
     """
     #takes every variable and convert to a string, so that can be created the full line as a string
     str_player_guess = make_string(player_guess)
-    print(str_player_guess)
     str_feedback_player = make_string(feedback_player)
-    print(str_feedback_player)
     str_cpu_guess = make_string(cpu_guess)
-    print(str_cpu_guess)
     str_feedback_cpu = make_string(feedback_cpu)
-    print(str_feedback_cpu)    
-
-
     line = "|" + str_cpu_guess + "| |" + str_feedback_cpu + "| - |" + str_player_guess + "| |" + str_feedback_player + "|"
-    return line
+    history.append(line)
+    return history
+
+def board_update():
+    """
+    Update the board with the different lines in the history list
+    fills the remaining turns with empty lines
+    """
+    typingPrint(f"       Joshua               {player_name}\n")
+    typingPrint(f"   Code   Feedback      Code    Feedback\n")
+    for row in range(len(history)):
+        print(str(history[row]))
+    for row in range(turn+1,10):
+        print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|")
+
+
 
 """
 Sequence of activities to prepare the game
@@ -192,16 +205,15 @@ evaluate the guess against the secret and create the feedback
 create a guess for the CPU
 evaluate the guess against the secret and create the feedback
 store the values in the history list
-if the code is same as secret, evaluate victory (cpu or player).
 print the board with the history + the remaining empty turns
+if the code is same as secret, evaluate victory (cpu or player).
 increase turns
-if the turnes are fininshed...evaluate victory
+if the turns are fininshed...evaluate victory
 """
 feedback_player = evaluate_guess("Player", player_guess, secret_player)
-print(f"feedback_player {feedback_player}")
 cpu_guess = cpu_almost_random_guess()
-print(f"cpu_guess {cpu_guess}")
 feedback_cpu = evaluate_guess("CPU", cpu_guess, secret_cpu)
-print(f"feedback_cpu {feedback_cpu}")
-line = create_history(player_guess, feedback_player, cpu_guess, feedback_cpu)
-print(line)
+create_history(player_guess, feedback_player, cpu_guess, feedback_cpu)
+board_update()
+print(f"Secret_player {secret_player}")
+print(f"Secret_cpu {secret_cpu}")
