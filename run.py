@@ -11,8 +11,7 @@ choice = ""
 secret_player=[]
 secret_cpu=[]
 player = ""
-game = True
-
+new = False
 
 def typingPrint(text):
     """
@@ -195,11 +194,10 @@ def board_update():
 def evaluate_victory(guess, secret, player):
     """
     Evaluate the guess vs the secret
-    If the code is fully found, depending of the player (CPU-Player)
-    Prepares a victory-loosing message
+    If the code is fully found ends the game
     If the code is almost there (1 missing), depending of the player
     Prepare an "almost there" message
-    If not found, send for a new turn of guess
+    If not yet found, check for turns and send for a new turn of guess
     """    
     list_guess = [int(char) for char in guess]
     count = 0
@@ -208,66 +206,83 @@ def evaluate_victory(guess, secret, player):
             count = count +1
     
     if count == 4:
-        #exits the game
+        #exits the game when code found
         game_end(player)
     elif count == 3 and player == "CPU":
         print(f"I'm almost there....better you call the President....I'm moving to Defcon 1\n")
     elif count == 3 and player == "Player":
         print(f"You're almost there....we're not playing 'Global Thermonuclear War', or are we?...\n")
     
-    if player == "CPU" and count <4:
-        global turn
+    global turn
+    if player == "CPU":
         turn = turn + 1
+
+    if turn == 10:
+        game_end(player)
+    else:
+        play_game
+    
+def keep_playing():
+    """
+    Prompts for a new round
+    """
+    global new
+    while True:
+        choice = typingInput("What about another round?   (Y/N)     ").upper()
+        if choice =="Y":
+            new = True
+            new_game()
+            play_game()
+        elif choice =="N":
+            typingPrint("Thank you for playing with me.\n\n")
+            exit()
+        else:
+            print("Please enter Yes[Y] or No[N].")
+            continue
+        break
 
 def game_end(player):
     """
     Depending of the condition, there is a different end
-    no more turns:
     CPU wins:
     Player wins:
-    After the sequence: propose a new game
+    no more turns:
+    After the sequence: propose a new round
     """
     global turn
     if turn < 10 and player == "Player":
+        time.sleep(2)
         f = Figlet(font='slant')
+        print(f.renderText("YOU WON !"))
+        time.sleep(1)
         print(f.renderText("LAUNCHING"))
         time.sleep(0.5)
-        print(f.renderText("MISSILES !"))
+        print(f.renderText("YOUR MISSILES !"))
         time.sleep(2)
         os.system("clear")
         time.sleep(2)
         typingPrint(f"It was a strange game {player_name}....\n")
-        typingPrint(f"No one can really win...\n")
-        choice = typingInput("What about another round?   y/n     ")
-        if choice =="y":
-            new_game()
-        elif choice =="n":
-            typingPrint("Thank you for playing with me.\n\n")
-            exit()    
+        typingPrint(f"You won, but no one can really win launching missiles...\n")
+        keep_playing()
+    
     elif turn < 10 and player == "CPU":
+        time.sleep(2)
         f = Figlet(font='slant')
+        print(f.renderText("JOSHUA WON !"))
+        time.sleep(1)
         print(f.renderText("LAUNCHING"))
         time.sleep(0.5)
-        print(f.renderText("MISSILES !"))
+        print(f.renderText("MY MISSILES !"))
         time.sleep(2)
         os.system("clear")
         time.sleep(2)
         typingPrint(f"It was a strange game {player_name}....\n")
-        typingPrint(f"No one can really win...\n")
-        choice = typingInput("What about another round?   y/n     ")
-        if choice =="y":
-            new_game()
-        elif choice =="n":
-            typingPrint("Thank you for playing with me.\n\n")
-            exit()    
+        typingPrint(f"I won, but no one can really win launching missiles...\n")
+        keep_playing()
+
     elif turn == 10:
-        typingPrint(f"No one can really win...\n")
-        choice = typingInput("What about another round?   y/n     ")
-        if choice =="y":
-            new_game()
-        elif choice =="n":
-            typingPrint("Thank you for playing with me.\n\n")
-            exit()    
+        typingPrint(f"\n\nNo one can really win...\n")
+        keep_playing()
 
 
 def new_game():
@@ -276,12 +291,20 @@ def new_game():
     """
     global secret_cpu
     global secret_player
+    global history
+    global turn
+    global new
+    if new == True:
+        history.clear()
+        turn = 0
     prepare_board(player_name)
     secret_cpu = create_random_code()
     secret_player = create_random_code()
-    print(f"Secret_player {secret_player}")
-    print(f"Secret_cpu {secret_cpu}")
+    print("Secret_player",secret_player)
+    print("Secret cpu", secret_cpu)
+    print("New Turn",turn)
 
+  
 def play_game():
     """
     Sequence of activities to execute the game
@@ -299,6 +322,9 @@ def play_game():
     global feedback_cpu
     global secret_player
     global secret_cpu
+    global new
+    global turn
+    print("Turn", turn)
     player_guess = input_player_guess()
     validate_guess(player_guess)
     feedback_player = evaluate_guess("Player", player_guess, secret_player)
@@ -306,21 +332,16 @@ def play_game():
     feedback_cpu = evaluate_guess("CPU", cpu_guess, secret_cpu)
     create_history(player_guess, feedback_player, cpu_guess, feedback_cpu)
     board_update()
-    print(f"Secret_player {secret_player}")
-    print(f"Secret_cpu {secret_cpu}")
+    print("Secret_player",secret_player)
+    print("Secret cpu", secret_cpu)
     evaluate_victory(player_guess, secret_player, "Player")
     evaluate_victory(cpu_guess, secret_cpu, "CPU")
-    global turn
-    global player
-    #If there are more turns to play asks for a new guess
-    if turn < 10:
-        print(turn)
-        play_game()
-    else:
-        game_end(player)
 
 
 
+#main sequence
 player_name = ask_player_name()
 new_game()
-play_game()
+#infinite loop, unless broken directly in the code with exit()
+while True:
+    play_game()
