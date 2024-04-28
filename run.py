@@ -5,11 +5,10 @@ import os
 """
 Declare Global Variables
 """
-turn = 1
+turn = 0
 history = []
 feedback_cpu=[]
 feedback_player = []
-player_name = ""
 
 def typingPrint(text):
     """
@@ -42,7 +41,7 @@ def ask_player_name():
     typingPrint(f" What about a nice round at Mastermind?\n\n")
     typingPrint(f" I will play with you...my name is Joshua.\n\n")
     typingPrint(f" The game is very simple: we will both try to crack a secret code\n\n")
-    typingPrint(f" The code is made of 4 digits, between 1 and 9\n")
+    typingPrint(f" The code is made of 4 digits, between 0 and 9\n")
     typingPrint(f" If we guess a digit in the right place of the code,\n it will show up in the feedback\n")
     typingPrint(f" If it is there, but in the wrong place, an X will appear\n\n")
     typingPrint(f" Let's see who will crack the code first....and launch the missiles!\n\n")
@@ -55,16 +54,16 @@ def prepare_board(player_name):
     """
     typingPrint(f"       Joshua               {player_name}\n")
     typingPrint(f"   Code   Feedback      Code    Feedback\n")
-    for row in range(1,10):
+    for row in range(0,10):
         print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|")
   
 def create_random_code():
     """
-    Creates a 4 digit code with integers 1-9
+    Creates a 4 digit code with integers 0-9
     """
     secret = []
     for num in range(4):
-        secret.append(randint(1,9))
+        secret.append(randint(0,9))
             
     return secret
 
@@ -96,10 +95,10 @@ def input_player_guess ():
     Continue to ask if the input is not valid
     """
     while True:
-        player_guess = typingInput(f" {player_name}, guess the code: ")
+        player_guess = typingInput(f" {player_name}, guess your code: ")
         if validate_guess(player_guess):
             os.system("clear")
-            typingPrint(f" Checking your code {player_name}....\n\n")
+            typingPrint(f" Checking your code, {player_name}....\n\n")
             time.sleep(1)
             typingPrint(f" I'm also trying my code....\n\n")
             time.sleep(1)
@@ -133,8 +132,8 @@ def cpu_almost_random_guess():
     random integer for the unkonown digits,
     random, but avoiding the already known, for the known
     """
-    if turn == 1:
-        #first round (turn = 1) is pure random
+    if turn == 0:
+        #first round (turn = 0) is pure random
         cpu_guess = create_random_code()
     elif feedback_cpu == [".",".",".","."]:
         #no digits found is pure random 
@@ -143,10 +142,10 @@ def cpu_almost_random_guess():
         for num in range(4):
             if feedback_cpu[num] == ".":
                 #digit not found is random
-                cpu_guess.append(randint(1,9))
+                cpu_guess.append(randint(0,9))
             elif feedback_cpu[num] == "X":
                 #digit wrong place is random            
-                cpu_guess.append(randint(1,9))
+                cpu_guess.append(randint(0,9))
             else:
                 #digit found right is the same digit
                 cpu_guess.append(feedback_cpu[num])
@@ -179,12 +178,34 @@ def board_update():
     typingPrint(f"       Joshua               {player_name}\n")
     typingPrint(f"   Code   Feedback      Code    Feedback\n")
     for row in range(len(history)):
-        print(str(history[row]))
+        typingPrint(f"{str(history[row])}\n")
     for row in range(turn+1,10):
         print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|")
 
-
-
+def evaluate_victory(guess, secret, player):
+    """
+    Evaluate the guess vs the secret
+    If the code is fully found, depending of the player (CPU-Player)
+    Prepares a victory-loosing message
+    If the code is almost there (1 missing), depending of the player
+    Prepare an "almost there" message
+    If not found, send for a new turn of guess
+    """    
+    list_guess = [int(char) for char in guess]
+    count = 0
+    for num in range(4):
+        if list_guess[num] == secret[num]:
+            count = count +1
+    
+    if count == 4:
+        print("Code found!")
+    elif count == 3 and player == "CPU":
+        print("I'm almost there....better you call the President....Defcon 1")
+    elif count == 3 and player == "Player":
+        print("You're almost there....we're not playing 'Global Thermonuclear War', or are we?...")
+    elif player == "CPU" and count <4:
+        global turn
+        turn = turn + 1
 """
 Sequence of activities to prepare the game
 """
@@ -195,25 +216,39 @@ secret_player = create_random_code()
 print(f"Secret_player {secret_player}")
 print(f"Secret_cpu {secret_cpu}")
 
-player_guess = input_player_guess()
-validate_guess(player_guess)
 
 
-"""
-Sequence of activities to execute the game
-evaluate the guess against the secret and create the feedback
-create a guess for the CPU
-evaluate the guess against the secret and create the feedback
-store the values in the history list
-print the board with the history + the remaining empty turns
-if the code is same as secret, evaluate victory (cpu or player).
-increase turns
-if the turns are fininshed...evaluate victory
-"""
-feedback_player = evaluate_guess("Player", player_guess, secret_player)
-cpu_guess = cpu_almost_random_guess()
-feedback_cpu = evaluate_guess("CPU", cpu_guess, secret_cpu)
-create_history(player_guess, feedback_player, cpu_guess, feedback_cpu)
-board_update()
-print(f"Secret_player {secret_player}")
-print(f"Secret_cpu {secret_cpu}")
+def play_game():
+    """
+    Sequence of activities to execute the game
+    ask and validate input from the player
+    evaluate the guess against the secret and create the feedback
+    create a guess for the CPU
+    evaluate the guess against the secret and create the feedback
+    store the values in the history list
+    print the board with the history + the remaining empty turns
+    if the code is same as secret, evaluate victory (cpu or player).
+    if only one number is missing for cpu...special message
+    increase turns and ask for a new input
+    if the turns are fininshed...evaluate victory
+    """
+    player_guess = input_player_guess()
+    validate_guess(player_guess)
+    feedback_player = evaluate_guess("Player", player_guess, secret_player)
+    cpu_guess = cpu_almost_random_guess()
+    feedback_cpu = evaluate_guess("CPU", cpu_guess, secret_cpu)
+    create_history(player_guess, feedback_player, cpu_guess, feedback_cpu)
+    board_update()
+    print(f"Secret_player {secret_player}")
+    print(f"Secret_cpu {secret_cpu}")
+    evaluate_victory(player_guess, secret_player, "Player")
+    evaluate_victory(cpu_guess, secret_cpu, "CPU")
+    """
+    If there are more turns to play asks for a new guess
+    """
+    if turn <= 9:
+        play_game()
+    else:
+        print("game finished")
+
+play_game()
