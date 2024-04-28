@@ -39,9 +39,9 @@ def ask_player_name():
     Ask for the player name and print a welcome message
     """
     player_name = typingInput(" Please login with your name:  ")
-    typingPrint(f"\n Good morning {player_name}:\n\n")
+    typingPrint(f"\n Greetings {player_name}:\n\n")
     typingPrint(f" Shall we play a game?\n")
-    typingPrint(f" What about a nice round at Mastermind?\n\n")
+    typingPrint(f" How about a nice game of Mastermind?\n\n")
     typingPrint(f" I will play with you...my name is Joshua.\n\n")
     typingPrint(f" The game is very simple: we will both try to crack a secret code\n\n")
     typingPrint(f" The code is made of 4 digits, between 0 and 9\n")
@@ -79,18 +79,12 @@ def validate_guess(guess):
     Raises ValueError if string cannot be converted into int,
     or if there aren't exactly 4 characters.
     """
-    try:
-        int(guess)
-        if len(guess) != 4:
-            raise ValueError(
-                f"Exactly 4 digits required, you provided {len(guess)}"
-            )
-    except ValueError as e:
-        print(f"Invalid data: {e}, please try again.\n")
-        return False
-
-    return True
-
+    if str(guess).isnumeric() == True and len(guess) == 4:
+        return True
+    else:
+        typingPrint(f" The code must contain only 4 numbers. Please try again\n")
+        return False        
+    
 
 def input_player_guess ():
     """
@@ -228,7 +222,7 @@ def keep_playing():
     """
     global new
     while True:
-        choice = typingInput("What about another round?   (Y/N)     ").upper()
+        choice = typingInput("How about another round?   (Y/N)     ").upper()
         if choice =="Y":
             new = True
             new_game()
@@ -255,14 +249,16 @@ def game_end(player):
         f = Figlet(font='slant')
         print(f.renderText("YOU WON !"))
         time.sleep(1)
-        print(f.renderText("LAUNCHING"))
+        print(f.renderText("YOU'RE LAUNCHING"))
         time.sleep(0.5)
         print(f.renderText("YOUR MISSILES !"))
         time.sleep(2)
         os.system("clear")
         time.sleep(2)
-        typingPrint(f"It was a strange game {player_name}....\n")
+        typingPrint(f"Greetings {player_name}\n")
+        typingPrint(f"A very strange game...\n")
         typingPrint(f"You won, but no one can really win launching missiles...\n")
+        typingPrint(f"The only winning move is not to play...\n")
         keep_playing()
     
     elif turn < 10 and player == "CPU":
@@ -270,18 +266,20 @@ def game_end(player):
         f = Figlet(font='slant')
         print(f.renderText("JOSHUA WON !"))
         time.sleep(1)
-        print(f.renderText("LAUNCHING"))
+        print(f.renderText("I'M LAUNCHING"))
         time.sleep(0.5)
         print(f.renderText("MY MISSILES !"))
         time.sleep(2)
         os.system("clear")
         time.sleep(2)
-        typingPrint(f"It was a strange game {player_name}....\n")
-        typingPrint(f"I won, but no one can really win launching missiles...\n")
+        typingPrint(f"Greetings {player_name}\n")
+        typingPrint(f"A very strange game...\n")
+        typingPrint(f"You won, but no one can really win launching missiles...\n")
+        typingPrint(f"The only winning move is not to play...\n")
         keep_playing()
 
     elif turn == 10:
-        typingPrint(f"\n\nNo one can really win...\n")
+        typingPrint(f"\n\nNo one of us seems to be able to win...\n")
         keep_playing()
 
 
@@ -300,9 +298,6 @@ def new_game():
     prepare_board(player_name)
     secret_cpu = create_random_code()
     secret_player = create_random_code()
-    print("Secret_player",secret_player)
-    print("Secret cpu", secret_cpu)
-    print("New Turn",turn)
 
   
 def play_game():
@@ -324,7 +319,6 @@ def play_game():
     global secret_cpu
     global new
     global turn
-    print("Turn", turn)
     player_guess = input_player_guess()
     validate_guess(player_guess)
     feedback_player = evaluate_guess("Player", player_guess, secret_player)
@@ -332,8 +326,6 @@ def play_game():
     feedback_cpu = evaluate_guess("CPU", cpu_guess, secret_cpu)
     create_history(player_guess, feedback_player, cpu_guess, feedback_cpu)
     board_update()
-    print("Secret_player",secret_player)
-    print("Secret cpu", secret_cpu)
     evaluate_victory(player_guess, secret_player, "Player")
     evaluate_victory(cpu_guess, secret_cpu, "CPU")
 
