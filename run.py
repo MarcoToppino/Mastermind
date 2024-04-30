@@ -1,17 +1,19 @@
 from random import randint
-import time,sys
+import time
+import sys
 import os
 from pyfiglet import Figlet
 
-#Declare Global Variables
+# Declare Global Variables
 turn = 0
 history = []
-feedback_cpu=[]
+feedback_cpu = []
 choice = ""
-secret_player=[]
-secret_cpu=[]
+secret_player = []
+secret_cpu = []
 player = ""
 new = False
+
 
 def typingPrint(text):
     """
@@ -21,7 +23,8 @@ def typingPrint(text):
         sys.stdout.write(character)
         sys.stdout.flush()
         time.sleep(0.05)
-  
+
+
 def typingInput(text):
     """
     Typewriting effect for Input method
@@ -30,7 +33,7 @@ def typingInput(text):
         sys.stdout.write(character)
         sys.stdout.flush()
         time.sleep(0.05)
-    value = input()  
+    value = input()
     return value
 
 
@@ -43,13 +46,19 @@ def ask_player_name():
     typingPrint(f" Shall we play a game?\n")
     typingPrint(f" How about a nice game of Mastermind?\n\n")
     typingPrint(f" I will play with you...my name is Joshua.\n\n")
-    typingPrint(f" The game is very simple: we will both try to crack a secret code\n\n")
+    typingPrint(f" The game is very simple:\n")
+    typingPrint(f" we will both try to crack a secret code\n\n")
     typingPrint(f" The code is made of 4 digits, between 0 and 9\n")
-    typingPrint(f" If we guess a digit in the right place of the code,\n it will show up in the feedback\n")
-    typingPrint(f" If it is there, but in the wrong place, an X will appear\n\n")
-    typingPrint(f" Let's see who will crack the code first....and launch the missiles!\n\n")
+    typingPrint(f" If we guess a digit in the right place of the code,\n")
+    typingPrint(f" it will show up in the feedback\n")
+    typingPrint(
+        f" If it is there, but in the wrong place, an X will appear\n\n"
+        )
+    typingPrint(f" Let's see who will crack the code first....\n\n")
+    typingPrint(f" ...and launch the missiles!\n\n")
     time.sleep(2)
     return player_name
+
 
 def prepare_board(player_name):
     """
@@ -57,17 +66,18 @@ def prepare_board(player_name):
     """
     typingPrint(f"       Joshua               {player_name}\n")
     typingPrint(f"   Code   Feedback      Code    Feedback\n")
-    for row in range(0,10):
-        print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|")
-  
+    for row in range(0, 10):
+        print(f"|. . . .| |. . . .| - |. . . .| |. . . .|")
+
+
 def create_random_code():
     """
     Creates a 4 digit code with integers 0-9
     """
     secret = []
     for num in range(4):
-        secret.append(randint(0,9))
-            
+        secret.append(randint(0, 9))
+
     return secret
 
 
@@ -79,14 +89,16 @@ def validate_guess(guess):
     Raises ValueError if string cannot be converted into int,
     or if there aren't exactly 4 characters.
     """
-    if str(guess).isnumeric() == True and len(guess) == 4:
+    if str(guess).isnumeric() is True and len(guess) == 4:
         return True
     else:
-        typingPrint(f" The code must contain only 4 numbers. Please try again\n")
-        return False        
-    
+        typingPrint(
+            f" The code must contain only 4 numbers. Please try again\n"
+            )
+        return False
 
-def input_player_guess ():
+
+def input_player_guess():
     """
     Ask the player to input a guess for the code
     Continue to ask if the input is not valid
@@ -101,7 +113,7 @@ def input_player_guess ():
             time.sleep(1)
             typingPrint(f" Here is our feedback....\n\n")
             break
-            
+
     return player_guess
 
 
@@ -131,28 +143,28 @@ def cpu_almost_random_guess():
     """
     cpu_guess = []
     if turn == 0:
-        #first round (turn = 0) is pure random
+        # first round (turn = 0) is pure random
         cpu_guess = create_random_code()
     elif make_string(feedback_cpu) == ["...."]:
-        #no digits found is pure random 
+        # no digits found is pure random
         cpu_guess = create_random_code()
     else:
-        
         for num in range(4):
             if feedback_cpu[num] == ".":
-                #digit not found is random
-                cpu_guess.append(randint(0,9))
+                # digit not found is random
+                cpu_guess.append(randint(0, 9))
             elif feedback_cpu[num] == "X":
-                #digit wrong place is random            
-                cpu_guess.append(randint(0,9))
+                # digit wrong place is random
+                cpu_guess.append(randint(0, 9))
             else:
-                #digit found right is the same digit
+                # digit found right is the same digit
                 cpu_guess.append(feedback_cpu[num])
     return cpu_guess
 
+
 def make_string(list):
-        string = " ".join(str(e) for e in list)
-        return string
+    string = " ".join(str(e) for e in list)
+    return string
 
 
 def create_history(player_guess, feedback_player, cpu_guess, feedback_cpu):
@@ -160,14 +172,18 @@ def create_history(player_guess, feedback_player, cpu_guess, feedback_cpu):
     Creates a string for a full turn of the board
     add it to the history list that represents the board
     """
-    #takes every variable and convert to a string, so that can be created the full line as a string
+    # takes every variable and convert to a string,
+    # so that can be created the full line as a string
     str_player_guess = make_string(player_guess)
     str_feedback_player = make_string(feedback_player)
     str_cpu_guess = make_string(cpu_guess)
     str_feedback_cpu = make_string(feedback_cpu)
-    line = "|" + str_cpu_guess + "| |" + str_feedback_cpu + "| - |" + str_player_guess + "| |" + str_feedback_player + "|"
+    line1 = "|" + str_cpu_guess + "| |" + str_feedback_cpu
+    line2 = "| - |" + str_player_guess + "| |" + str_feedback_player + "|"
+    line = line1 + line2
     history.append(line)
     return history
+
 
 def board_update():
     """
@@ -179,11 +195,12 @@ def board_update():
     typingPrint(f"   Code   Feedback      Code    Feedback\n")
     for row in range(len(history)-1):
         print(f"{str(history[row])}")
-    
+
     typingPrint(f"{str(history[-1])}\n")
 
-    for row in range(turn+1,10):
-        print  (f"|. . . .| |. . . .| - |. . . .| |. . . .|")
+    for row in range(turn+1, 10):
+        print(f"|. . . .| |. . . .| - |. . . .| |. . . .|")
+
 
 def evaluate_victory(guess, secret, player):
     """
@@ -192,21 +209,23 @@ def evaluate_victory(guess, secret, player):
     If the code is almost there (1 missing), depending of the player
     Prepare an "almost there" message
     If not yet found, check for turns and send for a new turn of guess
-    """    
+    """
     list_guess = [int(char) for char in guess]
     count = 0
     for num in range(4):
         if list_guess[num] == secret[num]:
-            count = count +1
-    
+            count = count + 1
+
     if count == 4:
-        #exits the game when code found
+        # exits the game when code found
         game_end(player)
     elif count == 3 and player == "CPU":
-        print(f"I'm almost there....better you call the President....I'm moving to Defcon 1\n")
+        print(f"I'm almost there....\n")
+        print(f"better you call the President....I'm moving to Defcon 1\n")
     elif count == 3 and player == "Player":
-        print(f"You're almost there....we're not playing 'Global Thermonuclear War', or are we?...\n")
-    
+        print(f"You're almost there....\n")
+        print(f"we're not playing 'Global Thermonuclear War', or are we?...\n")
+
     global turn
     if player == "CPU":
         turn = turn + 1
@@ -215,7 +234,8 @@ def evaluate_victory(guess, secret, player):
         game_end(player)
     else:
         play_game
-    
+
+
 def keep_playing():
     """
     Prompts for a new round
@@ -223,17 +243,18 @@ def keep_playing():
     global new
     while True:
         choice = typingInput("How about another round?   (Y/N)     ").upper()
-        if choice =="Y":
+        if choice == "Y":
             new = True
             new_game()
             play_game()
-        elif choice =="N":
+        elif choice == "N":
             typingPrint("Thank you for playing with me.\n\n")
             exit()
         else:
             print("Please enter Yes[Y] or No[N].")
             continue
         break
+
 
 def game_end(player):
     """
@@ -257,10 +278,12 @@ def game_end(player):
         time.sleep(2)
         typingPrint(f"Greetings {player_name}\n")
         typingPrint(f"A very strange game...\n")
-        typingPrint(f"You won, but no one can really win launching missiles...\n")
+        typingPrint(
+            f"You won, but no one can really win launching missiles...\n"
+            )
         typingPrint(f"The only winning move is not to play...\n")
         keep_playing()
-    
+
     elif turn < 10 and player == "CPU":
         time.sleep(2)
         f = Figlet(font='slant')
@@ -274,7 +297,9 @@ def game_end(player):
         time.sleep(2)
         typingPrint(f"Greetings {player_name}\n")
         typingPrint(f"A very strange game...\n")
-        typingPrint(f"You won, but no one can really win launching missiles...\n")
+        typingPrint(
+            f"You won, but no one can really win launching missiles...\n"
+            )
         typingPrint(f"The only winning move is not to play...\n")
         keep_playing()
 
@@ -292,14 +317,14 @@ def new_game():
     global history
     global turn
     global new
-    if new == True:
+    if new is True:
         history.clear()
         turn = 0
     prepare_board(player_name)
     secret_cpu = create_random_code()
     secret_player = create_random_code()
 
-  
+
 def play_game():
     """
     Sequence of activities to execute the game
@@ -330,10 +355,9 @@ def play_game():
     evaluate_victory(cpu_guess, secret_cpu, "CPU")
 
 
-
-#main sequence
+# main sequence
 player_name = ask_player_name()
 new_game()
-#infinite loop, unless broken directly in the code with exit()
+# infinite loop, unless broken directly in the code with exit()
 while True:
     play_game()
