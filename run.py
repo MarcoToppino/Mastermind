@@ -242,16 +242,19 @@ def keep_playing():
     """
     global new
     while True:
-        choice = typingInput("How about another round?   (Y/N)     ").upper()
+        time.sleep(1)
+        choice = typingInput(
+            f"\n How about another round?   (Y/N)     "
+            ).upper()
         if choice == "Y":
             new = True
             new_game()
             play_game()
         elif choice == "N":
-            typingPrint("Thank you for playing with me.\n\n")
+            typingPrint(f"\n Thank you for playing with me.\n")
             exit()
         else:
-            print("Please enter Yes[Y] or No[N].")
+            print(" Please enter Yes[Y] or No[N].")
             continue
         break
 
@@ -276,10 +279,11 @@ def game_end(player):
         time.sleep(2)
         os.system("clear")
         time.sleep(2)
-        typingPrint(f"Greetings {player_name}\n")
-        typingPrint(f"A very strange game...\n")
+        typingPrint(f" Greetings {player_name}\n")
+        time.sleep(1)
+        typingPrint(f" A very strange game...\n")
         typingPrint(
-            f"You won, but no one can really win launching missiles...\n"
+            f" You won, but no one can really win launching missiles...\n"
             )
         typingPrint(f"The only winning move is not to play...\n")
         keep_playing()
@@ -295,16 +299,19 @@ def game_end(player):
         time.sleep(2)
         os.system("clear")
         time.sleep(2)
-        typingPrint(f"Greetings {player_name}\n")
-        typingPrint(f"A very strange game...\n")
+        typingPrint(f" Greetings {player_name}\n")
+        time.sleep(1)
+        typingPrint(f" A very strange game...\n")
         typingPrint(
-            f"You won, but no one can really win launching missiles...\n"
+            f" You won, but no one can really win launching missiles...\n"
             )
-        typingPrint(f"The only winning move is not to play...\n")
+        typingPrint(f" The only winning move is not to play...\n")
         keep_playing()
 
     elif turn == 10:
-        typingPrint(f"\n\nNo one of us seems to be able to win...\n")
+        typingPrint(
+            f"\n\n No one of us seems to be able to find the code...\n"
+            )
         keep_playing()
 
 
