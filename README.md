@@ -19,16 +19,15 @@ Visit the deployed application [here](https://mastermind-wargames-0d7588febbfa.h
     5. [Flowchart](#flowchart)
 2. [Features](#features)
     1. [User Information Input](#user-information-input)
-    2. [System of Measurement Selection](#system-of-measurement-selection)
-    3. [Activity Level Selection](#activity-level-selection)
-    4. [Goal Selection](#goal-selection)
-    5. [Diet Selection](#diet-selection)
-    6. [Review Data](#review-data)
-    7. [BMR Calculator](#bmr-calculator)
-    8. [TDEE Calculator](#tdee-calculator)
-    9. [Calories Goal Calculator](#calories-goal-calculator)
-    10. [Macronutrients Calculator](#macronutrients-calculator)
-    11. [Restart Program](#restart-program)
+    2. [Greetings and rules](#greetings-and-rules)
+    3. [Gameplay syncro with CPU](#Gameplay-syncro-with-CPU)
+    4. [Player guess is validated](#Player-guess-is-validated)
+    5. [Player and CPU receive feedback at the same time](#Player-and-CPU-receive-feedback-at-the-same-time)
+    6. [Further rounds are evaluated and history shown](#Further-rounds-are-evaluated-and-history-shown)
+    7. [CPU intelligence](#CPU-intelligence)
+    8. [Game progress](#Game-progress)
+    9. [Win-Lose Message](#Win-Lose-Message)
+    10. [Restart Program](#restart-program)
 3. [Technologies Used](#technologies-used)
     1. [Language Used](#language-used)
     2. [Frameworks, Libraries and Programs Used](#frameworks-libraries-and-programs-used)
@@ -107,7 +106,7 @@ Show greeting message and rules of the game.
 
 ![Greetings and Rules](assets/readme-files/greetings-rules.png)
 
-### Gameplay sincro with CPU
+### Gameplay syncro with CPU
 
 Both CPU and Player play at the same time.
 
@@ -156,6 +155,7 @@ Allow the user to keep running or exit the program.
 
 [Back to top ⇧](#mastermind-wargames)
 
+
 ## Technologies Used
 
 ### Language Used
@@ -181,44 +181,36 @@ Allow the user to keep running or exit the program.
 ## Testing
 
 ### Testing User Stories
-
 * As a user, I want to receive information about the main objective of the program.
 
-    - Information about the program is presented in the welcome message explaining the use of the application.
-
-    - Details are provided together with the results to further explain the different terms.
+    - Information about the objective of the game is presented in the welcome message, just after the login (inspiration from the movie)
 
 * As a user, I want to easily understand what input is needed on each step.
 
-    - Input messages are being provided with detailed information on what the input needs to be.
-
-    - Input messages text is colored in light green to make them noticeable.
+    - The type of input is clearly stated in the rules of the game and the name of the player is recalld when an input is requested
 
 * As a user, I want to receive clear feedback in case I provide the wrong input.
 
-    - Error messages are provided explaining what is wrong with the input provided in case the wrong input is entered.
+    - The guess input is validated (4 digits, only numbers) and feedback is provided, together with the required type of input, when the input is wrong.
 
-    - Some values as age, weight and height are being limited in order to gather the correct information and avoid mistypes.
+    - The y/n question to restart the game is validated and a relevant message is shown if another letter is inputed
 
-    - Error messages have a red background to make them noticeable.
+* As a user, I want to be able to review the data I provided .
 
-* As a user, I want to be able to review the data I provided and correct it if needed.
+    - The table shows all the guesses provided both by CPU and Player during the game
 
-    - Added a feature where the user can easily see the data entered and decide to continue or enter the data again.
+* As a user, I want to be informed about the progress of the game.
 
-    - The data is being presented in table format to make it easier to review.
+    - The feedback about the cpu and player guess provides game progress (number of digits found). when 3 digits are found a special message is shown
 
-    - The input data is colored in light yellow to make it as clear as possible.
+    - In case of victory a special sequence of messages is shown.
 
-* As a user, I want the calculations to be displayed in a clear way and to be easy to understand.
+    - In case of tie result (end of turns) a request for a new game is shown.
 
-    - Calculations are being formatted and presented at the end of the program with explanation for the different results.
-
-    - The result data is colored in light yellow to make it as clear as possible.
 
 ### Code Validation
 
-The [PEP8 online check](http://pep8online.com/) was used continuosly during the development proces to validate the Python code for PEP8 requirements. For this reason no before and after snapshots are available.
+The [PEP8 online check](http://pep8online.com/) was used continuosly during the development proces to validate the Python code for PEP8 requirements.
 
 ![PEP8 Code Validation](assets/readme-files/pep8-code-validation.png)
 

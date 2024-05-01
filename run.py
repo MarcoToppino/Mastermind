@@ -41,7 +41,12 @@ def ask_player_name():
     """
     Ask for the player name and print a welcome message
     """
-    player_name = typingInput(" Please login with your name:  ")
+    #loop for a valid name (no empty)
+    while True:
+        player_name = typingInput(" Please login with your name:  ")
+        if len(player_name) > 0:
+            break
+
     typingPrint(f"\n Greetings {player_name}:\n\n")
     typingPrint(f" Shall we play a game?\n")
     typingPrint(f" How about a nice game of Mastermind?\n\n")
@@ -252,6 +257,7 @@ def keep_playing():
             play_game()
         elif choice == "N":
             typingPrint(f"\n Thank you for playing with me.\n")
+            print("(To restart the game, please press 'RUN PROGRAM'")
             exit()
         else:
             print(" Please enter Yes[Y] or No[N].")
@@ -282,10 +288,12 @@ def game_end(player):
         typingPrint(f" Greetings {player_name}\n")
         time.sleep(1)
         typingPrint(f" A very strange game...\n")
+        time.sleep(1)
         typingPrint(
             f" You won, but no one can really win launching missiles...\n"
             )
-        typingPrint(f"The only winning move is not to play...\n")
+        time.sleep(1)
+        typingPrint(f" The only winning move is not to play...\n")
         keep_playing()
 
     elif turn < 10 and player == "CPU":
@@ -302,9 +310,11 @@ def game_end(player):
         typingPrint(f" Greetings {player_name}\n")
         time.sleep(1)
         typingPrint(f" A very strange game...\n")
+        time.sleep(1)
         typingPrint(
             f" You won, but no one can really win launching missiles...\n"
             )
+        time.sleep(1)
         typingPrint(f" The only winning move is not to play...\n")
         keep_playing()
 
