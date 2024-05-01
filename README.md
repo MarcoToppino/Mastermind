@@ -432,21 +432,19 @@ The application has been deployed using [Heroku](https://id.heroku.com/) by foll
 
 ### Content
 
-* Inspiration for the calculator and the explanations were taken from [Legion Athletics](https://legionathletics.com/) as well as the Mifflin-St Jeor formula to calculate the [BMR](https://legionathletics.com/what-is-bmr/).
+* Inspiration for the style of the game was taken from the movie "Wargames"  [Wargames](https://www.imdb.com/title/tt0086567//) and naturally from the original Mastermind Game [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)/).
 
-* The activity multipliers to calculate the TDEE was taken from the [Physical Activity and Controlling Weight ](https://www.k-state.edu/paccats/Contents/PA/PDF/Physical%20Activity%20and%20Controlling%20Weight.pdf) document found at the [Kansas State University](https://www.k-state.edu/) website.
+* Typewriting effect has been taken (through websearch from my mentor, Marcel) from [101 computing.net](https://www.101computing.net/python-typing-text-effect/).
 
-### Media
-* The ASCII art is a modified version of an original art created with [ASCII-Generator](https://ascii-generator.site/).
 
 ### Code
-* [Stack Overflow](https://stackoverflow.com/) was consulted on a regular basis for inspiration and sometimes to be able to better understand the code being implement.
+* [Stack Overflow](https://stackoverflow.com/) and [w3schools](https://www.w3schools.com//) were consulted on a regular basis for inspiration and sometimes to be able to better understand the code being implemented.
 
-[Back to top ⇧](#macro-calculator)
+[Back to top ⇧](#mastermind-wargames)
 
 ## Acknowledgements
 
-* My partner, for her unconditional love, help and continued support in all aspects of life to make possible for me to complete this project.
+* My daughter, Tullia, for inspiring me to replicate one of our favourite movies about computers and for....using python at school in her projects.
 
 * My tutor, Marcel, for his invaluable feedback and guidance.
 
