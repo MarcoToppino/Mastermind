@@ -1,18 +1,20 @@
-# Macro Calculator
+# Mastermind-Wargames
 
-![Macro Calculator mockup image](assets/readme-files/mockup-image.png)
+![Mastermind - Wargames mockup image](assets/readme-files/mockup-image.png)
 
-Macro Calulator is designed to help the users discover how much of each macronutrient they should eat every day to reach the desire goal.
+The Mastermind Wargames game is a variant of the well known Mastermind game. 
 
-There are three principal classes of macronutrients: carbohydrate, protein, and fat. Balancing these nutrients is a crucial element of success to any workout goal, whether looking to build muscle, lose fat, or improve athletic performance.
+The gameplay is centered on discovering a 4 digits code. BOth CPU and player play at the same time, but against different unique secret codes.
 
-Visit the deployed application [here](https://macro-calculator.onrender.com).
+The style of the game, the typewriting effect and the messages are inspired by the 1983 movie "Wargames".
+
+Visit the deployed application [here](https://mastermind-wargames-0d7588febbfa.herokuapp.com/).
 
 ## Table of Contents
 1. [User Experience (UX)](#user-experience-UX)
     1. [Project Goals](#project-goals)
     2. [User Stories](#user-stories)
-    3. [Color Scheme](#color-scheme)
+    3. [Color Scheme and Fonts](#color-scheme-and-fonts)
     4. [Data Model](#data-model)
     5. [Flowchart](#flowchart)
 2. [Features](#features)
@@ -44,9 +46,13 @@ Visit the deployed application [here](https://macro-calculator.onrender.com).
 
 ### Project Goals
 
-* Display enough information about the calculator in order to make it easy to understand even for first time users.
+* Interactive gameplay, engaging for the user.
 
-* Each step provides the necessary information to make the program clear and intuitive.
+* Instructions are clearly visible at the beginning of the game to allow easy undesranding and easy playing
+
+* Each step of the game provides feedback on the actual and previous turns, guiding the player to an easier solution
+
+* The CPU acts using a certain degree of intelligence, making the game more engaging
 
 * Provides input validation to help the user input the correct data.
 
@@ -60,170 +66,95 @@ Visit the deployed application [here](https://macro-calculator.onrender.com).
 
 * As a user, I want to receive clear feedback in case I provide the wrong input.
 
-* As a user, I want to be able to review the data I provided and correct it if needed.
+* As a user, I want to be able to review the data I provided .
 
-* As a user, I want the calculations to be displayed in a clear way and to be easy to understand.
+* As a user, I want to be informed about the progress of the game.
 
-### Color Scheme
+### Color Scheme and Fonts
 
-[Colorama](https://pypi.org/project/colorama/) has been used to apply color to the terminal text. This in order to make the program more intuitive and easier to read. 
-
-Here are the colors being used:
-
-* Inputs are displayed in light green.
-
-* Data and the main logo is displayed in light yellow.
-
-* Errors are displayed with a red background.
-
-* Some extra information has been displayed in dim text.
-
-* Messages are displayed in the default terminal color.
+No color scheme has been applied to the terminal text, to maintain the inspiration from the movie.
+[pyfiglet](https://pypi.org/project/pyfiglet/) has been used to easily apply an engaging font for the win/lose messages
 
 ### Data Model
 
-Simple data as the name, age, weight and height are being returned and stored as variables in order to access them in the future to display the data back to the user or to make calculations.
+Different data are stored as global variablesas they need to be accesses in different areas of the game.
 
-The unit selector returns 1 or 2 to be able to use them in if statements to choose different paths in the logic.
+Complex data (like the feedback to the user guess, or the secret code) are stored as lists to allow iteration on the different elements.
 
-More complex data as the gender, activity level, user's goal and diet is being stored as dictionaries as they contain a description of the selection to display back to the user, but also contain values to use in the different calculations.
+Methods to convert strigs to lists (and vice-versa) are used to prepare the output (print to terminal) for the user or to read the information already printed and run iterations.
 
-Calculations are stored as variables to be able to format them and display them back to the user.
 
 ### Flowchart
 
-The following flowchart was designed using [Miro](https://miro.com/) in order to plan the logic to be implemented in the program.
+The following flowchart was designed using [LucidChart](https://www.lucidchart.com/pages/?) in order to plan the logic to be implemented in the program.
 
-![Macro Calculator Flowchart](assets/readme-files/flowchart.jpg)
+![Macro Calculator Flowchart](assets/readme-files/flowchart.png)
 
-As shown in the flowchart, the original order of some functions has been changed during the development process in to follow a more intuitive logic and sequence of events but the main idea behind the process is still the same.
 
-[Back to top ⇧](#macro-calculator)
+[Back to top ⇧](#mastermind-wargames)
 
 ## Features
 
 ### User Information Input
 
-Collect the users information in order to use it in the program.
+Collect the users information (name) in order to use it in the program.
 
 ![User Information Input](assets/readme-files/user-information.png)
 
-Due to the biological characteristics needed for the BMR calculation, sex has been used over gender.
+### Greetings and rules
 
-### System of Measurement Selection
+Show greeting message and rules of the game.
 
-Allow the users to select the System of Measurement they are more confortable with.
+![Greetings and Rules](assets/readme-files/greetings-rules.png)
 
-![System of Measurement Selection](assets/readme-files/system-of-measurement.png)
+### Gameplay sincro with CPU
 
-### Activity Level Selection
+Both CPU and Player play at the same time.
 
-Allow the users to select their activity level in order to calculate the total daily energy expenditure (TDEE) based on this activity level.
+![Empty table for user and CPU](assets/readme-files/empty-table.png)
 
-![Activity Level Selection](assets/readme-files/activity-level.png)
+### Player guess is validated
 
-### Goal Selection
+Player input is validated to be 4 digits (no more, no less, no other characters than numbers).
 
-Allow the users to select their desired goal . The program will then use this goal to calculate the total daily calories and the macronutrients split based on this goal.
+![Examples of wrong inputs](assets/readme-files/validate-input.png)
 
-![Goal Selection](assets/readme-files/goal.png)
+### Player and CPU receive feedback at the same time
 
-### Diet Selection
+Player input and CPU guess are checked against the respective codes and feedback is presented at the same time
 
-Allow the users to select thier prefered diet. This diet will dictate the split of the macronutrients.
+![First Feedback](assets/readme-files/first-feedback.png)
 
-![Diet Selection](assets/readme-files/diet.png)
+### Further rounds are evaluated and history shown
 
-### Review Data
+Further Player input and CPU guess are checked against the respective codes and feedback is presented at the same time, history is shown for reference
 
-Allow the users to review the data input and give them the possibility to enter the data again if a mistake has been made.
+![Second Feedback](assets/readme-files/second-feedback.png)
 
-![Review Data](assets/readme-files/review-data.png)
-![Review Data Question](assets/readme-files/review-data-question.png)
+### CPU intelligence
 
-### BMR Calculator
+CPU is intelligent enough to not rtepeat already found digits in the code
 
-The program use the [Mifflin-St Jeor formula](https://pubmed.ncbi.nlm.nih.gov/2305711/) to calculate the user's basal metabolic rate (BMR) using the input provided.
+![CPU sequence of guess](assets/readme-files/intelligent-cpu.png)
 
-![BMR](assets/readme-files/bmr.png)
+### Game progress
 
-**Mifflin-St Jeor Formula**
+Different messages are shown when the game is progressing (3 digits found). Messages are different for CPU and Player
 
-*Male BMR* = [9.99 x weight (kg)] + [6.25 x height (cm)] – [4.92 x age (years)] + 5
+![Almmost there message](assets/readme-files/almost-there.png)
 
-*Female BMR* = [9.99 x weight (kg)] + [6.25 x height (cm)] – [4.92 x age (years)] – 161
+### Win-Lose Message
 
-### TDEE Calculator
+Different messages are shown when the player or the CPU win the game (4 digits found). The message are transitory and quite fast (inspiration from the movie) and end up in a common message
 
-The program use the the value of the selected activity level multiplied by the BMR to calculate the user's total daily energy expenditure (TDEE)..
-
-![TDEE](assets/readme-files/tdee.png)
-
-Activity Level | Value
----|---
-No activity: | 1.2
-A little activity: | 1.375
-Some activity: | 1.55
-A lot of activity: | 1.725
-A TON of activity: | 1.9
-
-### Calories Goal Calculator
-
-Calculate the total daily calories to be consumed by using the value of the selected goal multiplied by the TDEE.
-
-![Calories Goal](assets/readme-files/calories-goal.png)
-
-**Lose Weight**
-
-Rate | Value
---- | ---
-Slow | 0.91
-Moderate | 0.82
-Fast | 0.65
-
-**Maintain Weight**
-
-Keeps the same TDEE value.
-
-**Gain Weight**
-
-Rate | Value
---- | ---
-Slow | 1.08
-Moderate | 1.17
-Fast | 1.34
-
-### Macronutrients Calculator
-
-Use the macronutrient split returned when the diet is selected in order to calculate the macronutrients in grams to be consumed every day.
-
-![Macronutrients](assets/readme-files/macros.png)
-
-**Macronutrients Split Percentage**
-
-Diet | Protein | Carbs | Fat
---- | ---| --- | ---
-Balanced | 40% | 30% | 30%
-Low-carb | 40% | 20% | 40%
-High-carb | 30% | 50% | 20%
-High-protein | 40% | 20% | 40%
-Ketogenic | 40% | 10% | 50%
+![Win Message](assets/readme-files/win-message.png)
 
 ### Restart Program
-
 Allow the user to keep running or exit the program.
 
 ![Program Loop Question](assets/readme-files/keep-running.png)
 
-### Future Features
-
-**Custom Macronutrients Split**
-
-The developer is planning to implement the possibility to input custom macronutrients split when selecting the diet. This will be done by selecting a custom diet and then entering a percentage for each macronutrient (protein, carbs and fat).
-
-It was decided not to implement this feature at this point as it became bit confusing for the user. Once this feature is implemented it will need to be very intuitive to use.
-
-[Back to top ⇧](#macro-calculator)
+[Back to top ⇧](#mastermind-wargames)
 
 ## Technologies Used
 
@@ -241,13 +172,11 @@ It was decided not to implement this feature at this point as it became bit conf
 
 * [PEP8 online check](http://pep8online.com/) was used to validate the Python code.
 
-* [PrettyTable](https://pypi.org/project/prettytable/) library was used to present the data in table format.
+* [pyfiglet](https://pypi.org/project/pyfiglet/) library was used to print the win-lose messages in a styled font
 
-* [Colorama](https://pypi.org/project/colorama/) library was used to apply color to the terminal text. 
+* [LucidChart](https://www.lucidchart.com/pages/?) was used to create the program flowchart.
 
-* [Miro](https://miro.com/) was used to create the program flowchart.
-
-[Back to top ⇧](#macro-calculator)
+[Back to top ⇧](#mastermind-wargames)
 
 ## Testing
 
@@ -481,7 +410,7 @@ The [PEP8 online check](http://pep8online.com/) was used continuosly during the 
         <td><img src=assets/readme-files/keep-running.png alt="Restart the program"></td></tr>
 </table>
 
-[Back to top ⇧](#macro-calculator)
+[Back to top ⇧](#mastermind-wargames)
 
 ## Deployment
 
@@ -505,7 +434,7 @@ The application has been deployed using [Heroku](https://id.heroku.com/) by foll
 14. Click "Connect" next the repository name.
 15. Choose "Automatic deploys" or "Manual deploys" to deploy your application.
 
-[Back to top ⇧](#macro-calculator)
+[Back to top ⇧](#mastermind-wargames)
 
 ## Credits
 

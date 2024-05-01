@@ -322,7 +322,7 @@ def new_game():
     global secret_cpu
     global secret_player
     global history
-    global turn
+    global turnLucidchart
     global new
     if new is True:
         history.clear()
