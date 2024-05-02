@@ -1,0 +1,2 @@
+# Ignore the assets files for the readme in the compiled version on Heroku
+*.playing
